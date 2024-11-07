@@ -5,9 +5,9 @@ import java.util.List;
 public class database {
   // Database Connect
   public static Connection db_connect() {
-    String dbUrl = "jdbc:postgresql://your-database-server:5432/your-database-name"; // DB URL
-    String username = "your-username";
-    String password = "your-password";
+    final String dbUrl = "jdbc:postgresql://your-database-server:5432/your-database-name"; // DB URL
+    final String username = "your-username";
+    final String password = "your-password";
 
     Connection connection = null;
     try {
