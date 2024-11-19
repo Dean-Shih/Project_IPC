@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro e Perfil de Investimento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showSection('cadastro')">Cadastro</button>
+            <button class="tab-btn" onclick="showSection('login')">Login</button>
+            <button class="tab-btn" onclick="showSection('perfil')" id="perfil-tab" disabled>Análise de Perfil</button>
+        </div>
+
+        <!-- Tela de Cadastro -->
+        <section id="cadastro" class="content-section active">
+            <h2>Cadastro</h2>
+            <form id="form-cadastro" onsubmit="handleCadastro(event)">
+                <input type="text" id="nome" name="nome" placeholder="Nome" required>
+                <input type="text" id="cpf" name="cpf" placeholder="CPF" required pattern="\d{11}" title="Digite um CPF válido de 11 dígitos">
+                <input type="text" id="telefone" name="telefone" placeholder="Telefone" required>
+                <input type="email" id="email" name="email" placeholder="E-mail" required>
+                <input type="number" id="idade" name="idade" placeholder="Idade" required>
+                <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <!-- Tela de Login -->
+        <section id="login" class="content-section">
+            <h2>Login</h2>
+            <form id="form-login" onsubmit="handleLogin(event)">
+                <input type="text" id="login-cpf" name="cpf" placeholder="CPF" required pattern="\d{11}" title="Digite um CPF válido de 11 dígitos">
+                <input type="password" id="login-senha" name="senha" placeholder="Senha" required>
+                <button type="submit">Entrar</button>
+            </form>
+        </section>
+
+        <!-- Tela de Análise de Perfil de Investimento -->
+        <section id="perfil" class="content-section">
+            <h2>Análise de Perfil de Investimento</h2>
+            <form id="form-perfil" onsubmit="handlePerfil(event)">
+                <p>Selecione os investimentos que você possui:</p>
+
+                <div class="investments">
+                    <h3>Renda Fixa:</h3>
+                    <label><input type="checkbox" name="investimentos" value="CDB"> CDB</label>
+                    <label><input type="checkbox" name="investimentos" value="Tesouro Direto"> Tesouro Direto</label>
+                    <label><input type="checkbox" name="investimentos" value="Debêntures"> Debêntures</label>
+                    <label><input type="checkbox" name="investimentos" value="Fundos de Renda Fixa"> Fundos de Renda Fixa</label>
+                    <label><input type="checkbox" name="investimentos" value="LCIs"> LCIs</label>
+                    <label><input type="checkbox" name="investimentos" value="LCAs"> LCAs</label>
+
+                    <h3>Renda Variável:</h3>
+                    <label><input type="checkbox" name="investimentos" value="Ações"> Ações</label>
+                    <label><input type="checkbox" name="investimentos" value="BDRs"> BDRs</label>
+                    <label><input type="checkbox" name="investimentos" value="Contratos Futuros"> Contratos Futuros</label>
+                    <label><input type="checkbox" name="investimentos" value="ETF"> ETF</label>
+                    <label><input type="checkbox" name="investimentos" value="Fundos Imobiliários"> Fundos Imobiliários</label>
+                    <label><input type="checkbox" name="investimentos" value="Opções"> Opções</label>
+                </div>
+
+                <!-- Campo oculto para integração com API do banco de dados -->
+                <input type="hidden" name="userId" id="userId" value="">
+
+                <button type="submit">Analisar Perfil</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
