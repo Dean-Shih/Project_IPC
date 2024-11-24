@@ -37,4 +37,13 @@ public class Usuario {
         inverseJoinColumns = @JoinColumn(name = "id_investimento")
     )
     private List<Investimento> investimentos;
+
+    public Usuario(String nome, String documento, String telefone, String email, String senha, int score) {
+        this.nome = nome;
+        this.documento = documento;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
+        this.score = score;
+    }
 }
