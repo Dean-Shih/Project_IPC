@@ -25,6 +25,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String nome;
     private String documento;
     private String telefone;
@@ -41,6 +42,7 @@ public class Usuario {
     @JsonIgnoreProperties("usuarios")
     private List<Investimento> investimentos;
 
+
     public Usuario(String nome, String documento, String telefone, String email, String senha, int score) {
         this.nome = nome;
         this.documento = documento;
@@ -48,5 +50,9 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
         this.score = score;
+    }
+
+    public void addInvestimento(Investimento investimento){
+        this.investimentos.add(investimento);
     }
 }
