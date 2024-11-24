@@ -3,6 +3,8 @@ package br.anhembi.a3.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,10 +34,11 @@ public class Usuario {
 
     @ManyToMany
     @JoinTable(
-        name = "relacao",
+        name = "investimento_usuario",
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_investimento")
     )
+    @JsonIgnoreProperties("usuarios")
     private List<Investimento> investimentos;
 
     public Usuario(String nome, String documento, String telefone, String email, String senha, int score) {
