@@ -12,7 +12,7 @@ public class UsuarioDTO {
     @NotBlank(message = "O campo nome é obrigatório")
     private String nome;
 
-    private String documento;
+    private String cpf;
     private String telefone;
     private String email;
     
@@ -21,6 +21,6 @@ public class UsuarioDTO {
     private int score;
 
     public Usuario toUsuario(){
-        return new Usuario(this.nome, this.documento, this.telefone, this.email, this.senha, this.score);
+        return new Usuario(this.nome, this.cpf, this.telefone, this.email, this.senha, this.score);
     }
 }

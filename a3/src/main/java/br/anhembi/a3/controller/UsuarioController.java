@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.anhembi.a3.dto.InvestimentoLinkDTO;
 import br.anhembi.a3.dto.UsuarioDTO;
+import br.anhembi.a3.model.Investimento;
 import br.anhembi.a3.model.Usuario;
 import br.anhembi.a3.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -92,5 +93,18 @@ public class UsuarioController {
         }
         return new ResponseEntity<Usuario>(usuarioAtualizado.get(), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/investimentos")
+    public ResponseEntity<List<Investimento>> getInvestimentos(@PathVariable int id) {
+        List<Investimento> investimentos = usuarioService.buscarInvestimentosPorUsuario(id);
+        return ResponseEntity.ok(investimentos);
+    }
+
+    @GetMapping("/{id}/investimentos/Score")
+    public ResponseEntity<Integer> getPontuacaoTotal(@PathVariable int id) {
+        Integer pontuacaoTotal = usuarioService.calcularScore(id);
+        return ResponseEntity.ok(pontuacaoTotal);
+    }
 }
+
 

@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,22 +21,23 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int Id_Usuario;
 
-    private String nome;
-    private String documento;
-    private String telefone;
-    private String email;
-    private String senha;
-    private int score;
+    private String Nome;
+    private String Cpf;
+    private String Telefone;
+    private String Email;
+    private String Senha;
+    private int Score;
 
     @ManyToMany
     @JoinTable(
-        name = "investimento_usuario",
+        name = "relacao",
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_investimento")
     )
@@ -43,13 +45,13 @@ public class Usuario {
     private List<Investimento> investimentos;
 
 
-    public Usuario(String nome, String documento, String telefone, String email, String senha, int score) {
-        this.nome = nome;
-        this.documento = documento;
-        this.telefone = telefone;
-        this.email = email;
-        this.senha = senha;
-        this.score = score;
+    public Usuario(String nome, String cpf, String telefone, String email, String senha, int score) {
+        this.Nome = nome;
+        this.Cpf = cpf;
+        this.Telefone = telefone;
+        this.Email = email;
+        this.Senha = senha;
+        this.Score = score;
     }
 
     public void addInvestimento(Iterable<Investimento> investimentos){

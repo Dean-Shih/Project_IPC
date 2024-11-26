@@ -22,7 +22,7 @@ public class UsuarioService {
     //TODO:
     // Checar outros parametrs além do ID na criação
     public Optional<Usuario> create(Usuario usuario){
-        if(usuario.getId() != 0){
+        if(usuario.getId_Usuario() != 0){
             return Optional.empty();
         }
         return Optional.of(usuarioRepo.save(usuario));
@@ -50,10 +50,10 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> update(Usuario usuario) {
-        if(usuario.getId() <= 0) {
+        if(usuario.getId_Usuario() <= 0) {
             return Optional.empty();
         }
-        Optional<Usuario> usuarioOptional = usuarioRepo.findById(usuario.getId());
+        Optional<Usuario> usuarioOptional = usuarioRepo.findById(usuario.getId_Usuario());
 
         if(usuarioOptional.isEmpty()) {
             return Optional.empty();
@@ -76,5 +76,24 @@ public class UsuarioService {
         return Optional.of(usuarioRepo.save(usuario));
     }
 
-    
+    public List<Investimento> buscarInvestimentosPorUsuario(int usuarioId) {
+        Optional<Usuario> usuario = usuarioRepo.findById(usuarioId);
+        if(usuario.isEmpty()){
+            return List.of();
+        }
+
+        return usuario.get().getInvestimentos();
+    }
+
+    public Integer calcularScore(int usuarioId) {
+        List<Investimento> investimentos = buscarInvestimentosPorUsuario(usuarioId);
+        int Score = 0;
+
+        for (Investimento investimento : investimentos) {
+            //CALCULO DE SCORE AQUI
+        }
+
+        return Score;
+    }
 }
+
