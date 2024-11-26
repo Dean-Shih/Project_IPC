@@ -1,5 +1,6 @@
 package br.anhembi.a3.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.anhembi.a3.dto.InvestimentoDTO;
 import br.anhembi.a3.dto.InvestimentoLinkDTO;
 import br.anhembi.a3.dto.UsuarioDTO;
 import br.anhembi.a3.model.Investimento;
@@ -44,23 +46,30 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable int id) {
+    public ResponseEntity<UsuarioDTO> findById(@PathVariable int id) {
         Optional<Usuario> usuarioOptional = usuarioService.findById(id);
 
         if(usuarioOptional.isPresent()) {
-            return ResponseEntity.ok(usuarioOptional.get());
+            UsuarioDTO usuario = new UsuarioDTO(usuarioOptional.get());
+            return ResponseEntity.ok(usuario);
         }
+
         return ResponseEntity.notFound().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> findAll() {
+    public ResponseEntity<List<UsuarioDTO>> findAll() {
         List<Usuario> usuarios =usuarioService.findAll();
 
         if(usuarios.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(usuarios);
+        List<UsuarioDTO> UsuarioDTOs = new ArrayList<UsuarioDTO>();
+        for (Usuario usuario : usuarios) {
+            UsuarioDTOs.add(new UsuarioDTO(usuario));
+        }
+
+        return ResponseEntity.ok(UsuarioDTOs);
     }
 
     @DeleteMapping("/{id}")
@@ -95,9 +104,15 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}/investimentos")
-    public ResponseEntity<List<Investimento>> getInvestimentos(@PathVariable int id) {
+    public ResponseEntity<List<InvestimentoDTO>> getInvestimentos(@PathVariable int id) {
         List<Investimento> investimentos = usuarioService.buscarInvestimentosPorUsuario(id);
-        return ResponseEntity.ok(investimentos);
+        List<InvestimentoDTO> investimentoDTOs = new ArrayList<InvestimentoDTO>();
+
+        for (Investimento investimento : investimentos) {
+            investimentoDTOs.add(new InvestimentoDTO(investimento));
+        }
+
+        return ResponseEntity.ok(investimentoDTOs);
     }
 
     @GetMapping("/{id}/investimentos/Score")
@@ -106,5 +121,3 @@ public class UsuarioController {
         return ResponseEntity.ok(pontuacaoTotal);
     }
 }
-
-
