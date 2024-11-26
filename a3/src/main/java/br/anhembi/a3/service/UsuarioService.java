@@ -6,14 +6,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.anhembi.a3.model.Investimento;
 import br.anhembi.a3.model.Usuario;
+import br.anhembi.a3.repository.InvestimentoRepo;
 import br.anhembi.a3.repository.UsuarioRepo;
 
 @Service
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepo repo;
+    private UsuarioRepo usuarioRepo;
+    @Autowired
+    private InvestimentoRepo invRepo;
 
     //TODO:
     // Checar outros parametrs além do ID na criação
@@ -21,27 +25,27 @@ public class UsuarioService {
         if(usuario.getId() != 0){
             return Optional.empty();
         }
-        return Optional.of(repo.save(usuario));
+        return Optional.of(usuarioRepo.save(usuario));
     }
 
     public Optional<Usuario> findById(int id) {
-        return repo.findById(id);
+        return usuarioRepo.findById(id);
     }
 
     public List<Usuario> findAll() {
-        return (List<Usuario>) repo.findAll();
+        return (List<Usuario>) usuarioRepo.findAll();
     }
 
     public boolean delete(int id) {
         if(id <= 0) {
             return false;
         }
-        Optional<Usuario> usuarioOptional = repo.findById(id);
+        Optional<Usuario> usuarioOptional = usuarioRepo.findById(id);
 
         if(usuarioOptional.isEmpty()) {
             return false;
         }
-        repo.deleteById(id);
+        usuarioRepo.deleteById(id);
         return true;
     }
 
@@ -49,13 +53,27 @@ public class UsuarioService {
         if(usuario.getId() <= 0) {
             return Optional.empty();
         }
-        Optional<Usuario> usuarioOptional = repo.findById(usuario.getId());
+        Optional<Usuario> usuarioOptional = usuarioRepo.findById(usuario.getId());
 
         if(usuarioOptional.isEmpty()) {
             return Optional.empty();
         }
 
-        return Optional.of(repo.save(usuario));
+        return Optional.of(usuarioRepo.save(usuario));
+    }
+
+    public Optional<Usuario> atualizarInvestimentos(int usuarioId, List<Integer> investimentoIds) {
+        Optional<Usuario> usuarioOptional = usuarioRepo.findById(usuarioId);
+        if(usuarioOptional.isEmpty()){
+            return Optional.empty();
+        }
+        Usuario usuario = usuarioOptional.get();
+
+        Iterable<Investimento> investimentos = invRepo.findAllById(investimentoIds);
+
+        usuario.addInvestimento(investimentos);
+
+        return Optional.of(usuarioRepo.save(usuario));
     }
 
     

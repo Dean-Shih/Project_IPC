@@ -29,8 +29,4 @@ public class Investimento {
     @ManyToMany(mappedBy = "investimentos")
     @JsonIgnoreProperties("investimentos")
     private List<Usuario> usuarios;
-
-    public void addUsuarios(Usuario usuario){
-        this.usuarios.add(usuario);
-    }
 }

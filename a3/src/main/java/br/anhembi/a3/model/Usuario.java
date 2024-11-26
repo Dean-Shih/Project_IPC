@@ -52,7 +52,7 @@ public class Usuario {
         this.score = score;
     }
 
-    public void addInvestimento(Investimento investimento){
-        this.investimentos.add(investimento);
+    public void addInvestimento(Iterable<Investimento> investimentos){
+        investimentos.forEach(this.investimentos::add);
     }
 }
