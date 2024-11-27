@@ -60,3 +60,54 @@ function handlePerfil(event) {
 document.addEventListener("DOMContentLoaded", () => {
     showSection("cadastro");
 });
+
+let ultimoScore = 0;
+
+// Função para calcular o perfil de investimento
+function handlePerfil(event) {
+    event.preventDefault();
+
+    const investimentosSelecionados = Array.from(document.querySelectorAll("input[name='investimentos']:checked"));
+    const numInvestimentos = investimentosSelecionados.length;
+
+    if (numInvestimentos === 0) {
+        alert("Selecione pelo menos um investimento.");
+        return;
+    }
+
+    // Calcula uma pontuação arbitrária para cada investimento
+    const pontuacaoTotal = 1000;
+    const pontuacaoPorInvestimento = pontuacaoTotal / numInvestimentos;
+
+    // Define o score final como a média
+    ultimoScore = pontuacaoPorInvestimento;
+
+    // Habilita a aba de score
+    document.getElementById("score-tab").disabled = false;
+    showSection("score");
+
+    // Atualiza o visual do score
+    atualizarScore(ultimoScore);
+}
+
+// Atualiza a exibição do score
+function atualizarScore(score) {
+    const scoreCircle = document.querySelector(".score-circle");
+    const scoreValue = document.getElementById("score-value");
+
+    const scorePercentage = (score / 1000) * 100;
+    scoreCircle.style.setProperty("--score-percentage", `${scorePercentage}%`);
+
+    scoreValue.textContent = Math.round(score);
+}
+
+// Permite recalcular o score
+function recalcularScore() {
+    atualizarScore(ultimoScore);
+}
+
+// Configuração inicial
+document.addEventListener("DOMContentLoaded", () => {
+    showSection("cadastro");
+});
+

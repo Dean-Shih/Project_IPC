@@ -12,6 +12,7 @@
             <button class="tab-btn active" onclick="showSection('cadastro')">Cadastro</button>
             <button class="tab-btn" onclick="showSection('login')">Login</button>
             <button class="tab-btn" onclick="showSection('perfil')" id="perfil-tab" disabled>Análise de Perfil</button>
+            <button class="tab-btn" onclick="showSection('score')" id="score-tab" disabled>Score</button>
         </div>
 
         <!-- Tela de Cadastro -->
@@ -38,7 +39,7 @@
             </form>
         </section>
 
-        <!-- Tela de Análise de Perfil de Investimento -->
+        <!-- Tela de Análise de Perfil -->
         <section id="perfil" class="content-section">
             <h2>Análise de Perfil de Investimento</h2>
             <form id="form-perfil" onsubmit="handlePerfil(event)">
@@ -62,11 +63,17 @@
                     <label><input type="checkbox" name="investimentos" value="Opções"> Opções</label>
                 </div>
 
-                <!-- Campo oculto para integração com API do banco de dados -->
-                <input type="hidden" name="userId" id="userId" value="">
-
                 <button type="submit">Analisar Perfil</button>
             </form>
+        </section>
+
+        <!-- Tela de Score -->
+        <section id="score" class="content-section">
+            <h2>Score de Investimentos</h2>
+            <div class="score-circle">
+                <div id="score-value">0</div>
+            </div>
+            <button onclick="recalcularScore()">Recalcular Score</button>
         </section>
     </div>
 
