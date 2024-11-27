@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.anhembi.a3.dto.InvestimentoDTO;
 import br.anhembi.a3.dto.InvestimentoLinkDTO;
+import br.anhembi.a3.dto.LoginDTO;
 import br.anhembi.a3.dto.UsuarioDTO;
 import br.anhembi.a3.model.Investimento;
 import br.anhembi.a3.model.Usuario;
@@ -34,8 +35,23 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @PostMapping("/login")
+    public ResponseEntity<LoginDTO> login(@RequestBody LoginDTO login){
+        Optional<Usuario> usuario = usuarioService.findByCpf(login.getCpf());
+
+        if(usuario.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        if(usuarioService.checarLogin(usuario.get(), login)){
+            login.setLiberado(true);
+            return ResponseEntity.ok(login);
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping
-    public ResponseEntity<Usuario> insert(@RequestBody @Valid UsuarioDTO usuarioDto) {
+    public ResponseEntity<Usuario> cadastro(@RequestBody @Valid UsuarioDTO usuarioDto) {
         Optional<Usuario> optionalUsuario = usuarioService.create(usuarioDto.toUsuario());
 
         if(optionalUsuario.isEmpty()) {

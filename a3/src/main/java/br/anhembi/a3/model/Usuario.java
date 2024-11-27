@@ -26,14 +26,14 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id_Usuario;
+    private int id_Usuario;
 
-    private String Nome;
-    private String Cpf;
-    private String Telefone;
-    private String Email;
-    private String Senha;
-    private int Score;
+    private String nome;
+    private String cpf;
+    private String telefone;
+    private String email;
+    private String senha;
+    private int score;
 
     @ManyToMany
     @JoinTable(
@@ -46,12 +46,12 @@ public class Usuario {
 
 
     public Usuario(String nome, String cpf, String telefone, String email, String senha, int score) {
-        this.Nome = nome;
-        this.Cpf = cpf;
-        this.Telefone = telefone;
-        this.Email = email;
-        this.Senha = senha;
-        this.Score = score;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
+        this.score = score;
     }
 
     public void addInvestimento(Iterable<Investimento> investimentos){

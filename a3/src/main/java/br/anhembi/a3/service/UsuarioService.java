@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.anhembi.a3.dto.LoginDTO;
 import br.anhembi.a3.model.Investimento;
 import br.anhembi.a3.model.Usuario;
 import br.anhembi.a3.repository.InvestimentoRepo;
@@ -34,6 +35,10 @@ public class UsuarioService {
 
     public List<Usuario> findAll() {
         return (List<Usuario>) usuarioRepo.findAll();
+    }
+
+    public Optional<Usuario> findByCpf(String cpf){
+        return usuarioRepo.findByCpf(cpf);
     }
 
     public boolean delete(int id) {
@@ -94,6 +99,10 @@ public class UsuarioService {
         }
 
         return Score;
+    }
+
+    public boolean checarLogin(Usuario usuario, LoginDTO login){
+        return (usuario.getCpf().equals(login.getCpf()) && usuario.getSenha().equals(login.getSenha()));
     }
 }
 

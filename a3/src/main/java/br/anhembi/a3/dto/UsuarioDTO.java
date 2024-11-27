@@ -2,11 +2,15 @@ package br.anhembi.a3.dto;
 
 import br.anhembi.a3.model.Usuario;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioDTO {
     private int id;
     @NotBlank(message = "O campo nome é obrigatório")
