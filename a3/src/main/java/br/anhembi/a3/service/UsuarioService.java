@@ -101,6 +101,18 @@ public class UsuarioService {
         return Score;
     }
 
+    public Optional<Usuario> atualizarScore(int usuarioId, int novoScore) {
+        Optional<Usuario> usuarioOptional = usuarioRepo.findById(usuarioId);
+
+        if(usuarioOptional.isEmpty()){
+            return Optional.empty();
+        }
+        Usuario usuario = usuarioOptional.get();
+
+        usuario.setScore(novoScore);
+        return Optional.of(usuarioRepo.save(usuario)); 
+    }
+
     public boolean checarLogin(Usuario usuario, LoginDTO login){
         return (usuario.getCpf().equals(login.getCpf()) && usuario.getSenha().equals(login.getSenha()));
     }

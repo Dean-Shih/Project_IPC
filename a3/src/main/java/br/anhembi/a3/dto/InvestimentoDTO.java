@@ -1,7 +1,6 @@
 package br.anhembi.a3.dto;
 
 import br.anhembi.a3.model.Investimento;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

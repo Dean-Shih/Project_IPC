@@ -34,6 +34,6 @@ public class UsuarioDTO {
     }
 
     public Usuario toUsuario(){
-        return new Usuario(this.nome, this.cpf, this.telefone, this.email, this.senha, this.score);
+        return new Usuario(this.nome, this.cpf, this.telefone, this.email, this.senha);
     }
 }

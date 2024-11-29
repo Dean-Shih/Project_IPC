@@ -45,13 +45,12 @@ public class Usuario {
     private List<Investimento> investimentos;
 
 
-    public Usuario(String nome, String cpf, String telefone, String email, String senha, int score) {
+    public Usuario(String nome, String cpf, String telefone, String email, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
         this.email = email;
         this.senha = senha;
-        this.score = score;
     }
 
     public void addInvestimento(Iterable<Investimento> investimentos){

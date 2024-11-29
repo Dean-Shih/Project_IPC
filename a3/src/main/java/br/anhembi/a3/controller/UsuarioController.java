@@ -22,6 +22,7 @@ import br.anhembi.a3.dto.InvestimentoDTO;
 import br.anhembi.a3.dto.InvestimentoLinkDTO;
 import br.anhembi.a3.dto.LoginDTO;
 import br.anhembi.a3.dto.UsuarioDTO;
+import br.anhembi.a3.dto.UsuarioScoreDTO;
 import br.anhembi.a3.model.Investimento;
 import br.anhembi.a3.model.Usuario;
 import br.anhembi.a3.service.UsuarioService;
@@ -131,9 +132,21 @@ public class UsuarioController {
         return ResponseEntity.ok(investimentoDTOs);
     }
 
-    @GetMapping("/{id}/investimentos/Score")
+    @GetMapping("/{id}/score")
     public ResponseEntity<Integer> getPontuacaoTotal(@PathVariable int id) {
         Integer pontuacaoTotal = usuarioService.calcularScore(id);
         return ResponseEntity.ok(pontuacaoTotal);
+    }
+
+    
+    @PatchMapping("/{id}/score")
+    public ResponseEntity<Usuario> atualizarScore(@PathVariable int id,@RequestBody UsuarioScoreDTO dto) {
+        Optional<Usuario> usuarioAtualizado = usuarioService.atualizarScore(id, dto.getScore());
+
+        if(usuarioAtualizado.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        return new ResponseEntity<Usuario>(usuarioAtualizado.get(), HttpStatus.OK);
     }
 }
