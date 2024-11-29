@@ -17,50 +17,50 @@ USE mydb ;
 -- -----------------------------------------------------
 -- Table mydb.Usuario
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS mydb.Usuario (
-  Id_Usuario INT NOT NULL AUTO_INCREMENT,
-  Nome VARCHAR(45) NOT NULL,
-  Cpf VARCHAR(11) NOT NULL,
-  Telefone VARCHAR(11) NOT NULL,
-  Email VARCHAR(45) NOT NULL,
-  Senha VARCHAR(45) NOT NULL,
-  Score INT NOT NULL,
-  PRIMARY KEY (Id_Usuario),
-  UNIQUE INDEX Id_UNIQUE (Id_Usuario ASC) VISIBLE,
-  UNIQUE INDEX Documento_UNIQUE (Cpf ASC) VISIBLE,
-  UNIQUE INDEX Telefone_UNIQUE (Telefone ASC) VISIBLE,
-  UNIQUE INDEX Email_UNIQUE (Email ASC) VISIBLE,
-  UNIQUE INDEX Senha_UNIQUE (Senha ASC) VISIBLE)
+CREATE TABLE IF NOT EXISTS mydb.usuario (
+  id_Usuario INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NOT NULL,
+  cpf VARCHAR(11) NOT NULL,
+  telefone VARCHAR(11) NOT NULL,
+  email VARCHAR(45) NOT NULL,
+  senha VARCHAR(45) NOT NULL,
+  score INT NOT NULL,
+  PRIMARY KEY (id_Usuario),
+  UNIQUE INDEX id_UNIQUE (id_Usuario ASC) VISIBLE,
+  UNIQUE INDEX documento_UNIQUE (Cpf ASC) VISIBLE,
+  UNIQUE INDEX telefone_UNIQUE (Telefone ASC) VISIBLE,
+  UNIQUE INDEX email_UNIQUE (Email ASC) VISIBLE,
+  UNIQUE INDEX senha_UNIQUE (Senha ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table mydb.Investimentos
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS mydb.Investimentos (
-  Id_Investimentos INT NOT NULL AUTO_INCREMENT,
-  Nome VARCHAR(45) NOT NULL,
-  Valor INT NOT NULL,
-  PRIMARY KEY (Id_Investimentos))
+CREATE TABLE IF NOT EXISTS mydb.investimentos (
+  id_Investimentos INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NOT NULL,
+  valor INT NOT NULL,
+  PRIMARY KEY (id_Investimentos))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table mydb.Relacao
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS mydb.Relacao (
-  Id_Usuario INT NOT NULL,
-  Id_Investimento INT NOT NULL,
-  INDEX FK_IdInvestimento_idx (Id_Investimento ASC) VISIBLE,
-  INDEX FK_IdUsuario_idx (Id_Usuario ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS mydb.relacao (
+  id_Usuario INT NOT NULL,
+  id_Investimento INT NOT NULL,
+  INDEX FK_IdInvestimento_idx (id_Investimento ASC) VISIBLE,
+  INDEX FK_IdUsuario_idx (id_Usuario ASC) VISIBLE,
   CONSTRAINT FK_IdInvestimentos
-    FOREIGN KEY (Id_Investimento)
-    REFERENCES mydb.Investimentos (Id_Investimentos)
+    FOREIGN KEY (id_Investimento)
+    REFERENCES mydb.investimentos (id_Investimentos)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT FK_IdUsuario
-    FOREIGN KEY (Id_Usuario)
-    REFERENCES mydb.Usuario (Id_Usuario)
+    FOREIGN KEY (id_Usuario)
+    REFERENCES mydb.usuario (id_Usuario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
