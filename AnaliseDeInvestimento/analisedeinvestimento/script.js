@@ -40,7 +40,7 @@ async function handleCadastro(event) {
         });
 
         if (response.ok) {
-            alert("Usuário cadastrado com sucesso!");
+            //alert("Usuário cadastrado com sucesso!");
             showSection('login');
         } else {
             const error = await response.text();
@@ -151,20 +151,24 @@ async function calcularScore(){
 
 // Atualiza a exibição do score
 async function atualizarScore(calculatedScore) {
+
     const scoreCircle = document.querySelector(".score-circle");
     const scoreValue = document.getElementById("score-value");
     scoreValue.textContent = Math.round(calculatedScore);
     scoreCircle.style.setProperty("--score-percentage", `${calculatedScore}%`);
+
     const usuario = {
         score: calculatedScore,
     };
 
+    console.log(usuario)
     try{
         const response = await fetch("http://localhost:8080/usuario/" + usuarioId + "/score", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
+            body: JSON.stringify(usuario)
         });
     }catch (error) {
         //alert("Erro na comunicação com o servidor.");
