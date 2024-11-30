@@ -74,6 +74,8 @@ public class UsuarioService {
         }
         Usuario usuario = usuarioOptional.get();
 
+        usuario.getInvestimentos().clear();
+
         Iterable<Investimento> investimentos = invRepo.findAllById(investimentoIds);
 
         usuario.addInvestimento(investimentos);
@@ -90,13 +92,17 @@ public class UsuarioService {
         return usuario.get().getInvestimentos();
     }
 
-    public Integer calcularScore(int usuarioId) {
+    public Float calcularScore(int usuarioId) {
         List<Investimento> investimentos = buscarInvestimentosPorUsuario(usuarioId);
-        int Score = 0;
+        float Score = 0;
 
         for (Investimento investimento : investimentos) {
-            //CALCULO DE SCORE AQUI
+            Score += investimento.getValor();
         }
+        System.out.println(Score);
+
+        Score = ((Score/1000) * 100);
+        Math.ceil(Score);
 
         return Score;
     }
@@ -114,7 +120,11 @@ public class UsuarioService {
     }
 
     public boolean checarLogin(Usuario usuario, LoginDTO login){
-        return (usuario.getCpf().equals(login.getCpf()) && usuario.getSenha().equals(login.getSenha()));
+        boolean loginRealizado = usuario.getCpf().equals(login.getCpf()) && usuario.getSenha().equals(login.getSenha());
+        if(loginRealizado){
+            login.setId(usuario.getId_Usuario());
+        }
+        return loginRealizado;
     }
 }
 

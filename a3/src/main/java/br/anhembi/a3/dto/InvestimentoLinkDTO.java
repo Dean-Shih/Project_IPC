@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class InvestimentoLinkDTO {
     private List<Integer> investimentoIds;
-
     /*
      * FORMATO JASON PARA ESTE DTO
      * 
@@ -18,5 +17,4 @@ public class InvestimentoLinkDTO {
      * }
      * 
      */
-
 }

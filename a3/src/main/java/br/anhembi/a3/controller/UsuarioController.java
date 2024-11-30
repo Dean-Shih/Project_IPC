@@ -133,8 +133,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}/score")
-    public ResponseEntity<Integer> getPontuacaoTotal(@PathVariable int id) {
-        Integer pontuacaoTotal = usuarioService.calcularScore(id);
+    public ResponseEntity<Float> getPontuacaoTotal(@PathVariable int id) {
+        Float pontuacaoTotal = usuarioService.calcularScore(id);
         return ResponseEntity.ok(pontuacaoTotal);
     }
 
