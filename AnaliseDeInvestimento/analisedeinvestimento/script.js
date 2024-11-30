@@ -10,50 +10,82 @@ function showSection(sectionId) {
     document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add("active");
 }
 
-// Função para simular o cadastro
-function handleCadastro(event) {
-    event.preventDefault();
-    alert("Cadastro realizado com sucesso! Agora você pode fazer login.");
-    
-    // Simula o envio dos dados para uma API
-    const userId = "12345";  // Exemplo de ID gerado no banco de dados
-    document.getElementById("userId").value = userId;
+let usuarioId = 0;
 
-    showSection("login");
+// Função para simular o cadastro
+async function handleCadastro(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value;
+    const cpf = document.getElementById("cpf").value;
+    const telefone = document.getElementById("telefone").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    const usuario = {
+        nome: nome,
+        cpf: cpf,
+        telefone: telefone,
+        email: email,
+        senha: senha
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/usuario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(usuario)
+        });
+
+        if (response.ok) {
+            alert("Usuário cadastrado com sucesso!");
+            showSection('login');
+        } else {
+            const error = await response.text();
+            alert("Erro: " + error);
+        }
+    } catch (error) {
+        alert("Erro na comunicação com o servidor.");
+    }
 }
 
 // Função para simular o login
-function handleLogin(event) {
-    event.preventDefault();
-    alert("Login realizado com sucesso!");
-
-    // Habilita a aba de análise de perfil e redireciona o usuário
-    document.getElementById("perfil-tab").disabled = false;
-    showSection("perfil");
-}
-
-// Função para simular a análise de perfil
-function handlePerfil(event) {
+async function handleLogin(event) {
     event.preventDefault();
 
-    // Coleta os investimentos selecionados pelo usuário
-    const investimentosSelecionados = Array.from(document.querySelectorAll("input[name='investimentos']:checked"))
-        .map(input => input.value);
+    const cpf = document.getElementById("login-cpf").value;
+    const senha = document.getElementById("login-senha").value;
 
-    // Define o perfil com base nos investimentos selecionados
-    let perfil;
-    if (investimentosSelecionados.length === 0) {
-        perfil = "Nenhum investimento selecionado";
-    } else if (investimentosSelecionados.length <= 3) {
-        perfil = "Iniciante";
-    } else if (investimentosSelecionados.length <= 5) {
-        perfil = "Moderado";
-    } else {
-        perfil = "Avançado";
+    const usuarioLogin = {
+        cpf: cpf,
+        senha: senha
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/usuario/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(usuarioLogin)
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            usuarioId = data["id"];
+            alert("Login bem-sucedido!");
+            document.getElementById("perfil-tab").disabled = false;
+            showSection('perfil');
+        } else {
+            const error = await response.text();
+            alert("Erro: " + error);
+        }
+    } catch (error) {
+        // console.log(error);
+        // alert("Erro na comunicação com o servidor.");
     }
-
-    // Exibe o resultado da análise de perfil
-    alert(`Análise de perfil concluída! Seu perfil é: ${perfil}`);
 }
 
 // Inicia exibindo a seção de cadastro
@@ -64,46 +96,79 @@ document.addEventListener("DOMContentLoaded", () => {
 let ultimoScore = 0;
 
 // Função para calcular o perfil de investimento
-function handlePerfil(event) {
+async function handlePerfil(event) {
     event.preventDefault();
 
-    const investimentosSelecionados = Array.from(document.querySelectorAll("input[name='investimentos']:checked"));
-    const numInvestimentos = investimentosSelecionados.length;
+    // Coleta os investimentos selecionados pelo usuário
+    const investimentosSelecionados = Array.from(document.querySelectorAll("input[name='investimentos']:checked"))
+        .map(input => input.value);
 
-    if (numInvestimentos === 0) {
-        alert("Selecione pelo menos um investimento.");
-        return;
+    const usuario = {
+        investimentoIds: investimentosSelecionados,
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/usuario/" + usuarioId + "/investimentos", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(usuario)
+        });
+
+        if (response.ok) {
+            showSection("score");
+            ultimoScore = await calcularScore();
+            console.log(ultimoScore);
+            atualizarScore(ultimoScore);
+        } else {
+            alert("Erro ao obter perfil.");
+            console.log(response.text());
+        }
+    } catch (error) {
+        //alert("Erro na comunicação com o servidor.");
     }
+}
 
-    // Calcula uma pontuação arbitrária para cada investimento
-    const pontuacaoTotal = 1000;
-    const pontuacaoPorInvestimento = pontuacaoTotal / numInvestimentos;
+async function calcularScore(){
+    try{
+        const response = await fetch("http://localhost:8080/usuario/" + usuarioId + "/score", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+        if(response.ok){
+            let data = await response.json();
+            console.log(data);
+            return data;   
+        }
 
-    // Define o score final como a média
-    ultimoScore = pontuacaoPorInvestimento;
-
-    // Habilita a aba de score
-    document.getElementById("score-tab").disabled = false;
-    showSection("score");
-
-    // Atualiza o visual do score
-    atualizarScore(ultimoScore);
+    }catch (error) {
+        //alert("Erro na comunicação com o servidor.");
+    }
 }
 
 // Atualiza a exibição do score
-function atualizarScore(score) {
+async function atualizarScore(calculatedScore) {
     const scoreCircle = document.querySelector(".score-circle");
     const scoreValue = document.getElementById("score-value");
+    scoreValue.textContent = Math.round(calculatedScore);
+    scoreCircle.style.setProperty("--score-percentage", `${calculatedScore}%`);
+    const usuario = {
+        score: calculatedScore,
+    };
 
-    const scorePercentage = (score / 1000) * 100;
-    scoreCircle.style.setProperty("--score-percentage", `${scorePercentage}%`);
-
-    scoreValue.textContent = Math.round(score);
-}
-
-// Permite recalcular o score
-function recalcularScore() {
-    atualizarScore(ultimoScore);
+    try{
+        const response = await fetch("http://localhost:8080/usuario/" + usuarioId + "/score", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+    }catch (error) {
+        //alert("Erro na comunicação com o servidor.");
+    }
 }
 
 // Configuração inicial
