@@ -69,3 +69,16 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('CDB', '83');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('Tesouro Direto', '83');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('Debêntures', '83');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('Fundos de Renda Fixa', '83');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('LCIs', '84');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('LCAs', '83');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('Ações', '84');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('BDRs', '83');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('Contratos Futuros', '83');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('ETF', '84');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('Fundos Imobiliários', '83');
+INSERT INTO `mydb`.`investimentos` (`nome`, `Valor`) VALUES ('Opções', '84');
