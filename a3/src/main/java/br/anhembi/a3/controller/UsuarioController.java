@@ -123,6 +123,10 @@ public class UsuarioController {
     @GetMapping("/{id}/investimentos")
     public ResponseEntity<List<InvestimentoDTO>> getInvestimentos(@PathVariable int id) {
         List<Investimento> investimentos = usuarioService.buscarInvestimentosPorUsuario(id);
+        if(investimentos.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        
         List<InvestimentoDTO> investimentoDTOs = new ArrayList<InvestimentoDTO>();
 
         for (Investimento investimento : investimentos) {

@@ -20,8 +20,6 @@ public class UsuarioService {
     @Autowired
     private InvestimentoRepo invRepo;
 
-    //TODO:
-    // Checar outros parametrs além do ID na criação
     public Optional<Usuario> create(Usuario usuario){
         if(usuario.getId_Usuario() != 0){
             return Optional.empty();
@@ -94,17 +92,20 @@ public class UsuarioService {
 
     public Float calcularScore(int usuarioId) {
         List<Investimento> investimentos = buscarInvestimentosPorUsuario(usuarioId);
-        float Score = 0;
+        float score = 0;
+        if(investimentos.isEmpty()){
+            return score;
+        }
 
         for (Investimento investimento : investimentos) {
-            Score += investimento.getValor();
+            score += investimento.getValor();
         }
-        System.out.println(Score);
+        System.out.println(score);
 
-        Score = ((Score/1000) * 100);
-        Math.ceil(Score);
+        score = ((score/1000) * 100);
+        score = (float)Math.ceil(score);
 
-        return Score;
+        return score;
     }
 
     public Optional<Usuario> atualizarScore(int usuarioId, int novoScore) {
